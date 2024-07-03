@@ -4,6 +4,7 @@ import com.Salon.Booking.DTO.LoginUserDto;
 import com.Salon.Booking.DTO.SignUpRequestDto;
 import com.Salon.Booking.DTO.UserDto;
 import com.Salon.Booking.Entity.User;
+import com.Salon.Booking.Enum.UserRole;
 import com.Salon.Booking.Response.LoginResponse;
 import com.Salon.Booking.Services.Auth.AuthenticationService;
 import com.Salon.Booking.Utils.JwtUtil;
@@ -44,10 +45,12 @@ public class AuthController {
 
         String encodedPassword = passwordEncoder.encode(signUpRequestDto.getPassword());
         signUpRequestDto.setPassword(encodedPassword);
+        signUpRequestDto.setRole(UserRole.ADMIN);
 
         UserDto createdUser = authService.registerUser(signUpRequestDto);
         return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> authenticate(@RequestBody LoginUserDto loginUserDto) {
